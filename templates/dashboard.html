@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Health Tracker{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Welcome, {{ session.username }}! 👋</h2>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Today's Workout</h3>
+            <p class="stat-value">{{ total_workout_minutes }} min</p>
+            <p class="stat-label">Total minutes</p>
+        </div>
+        <div class="stat-card">
+            <h3>Calories Burned</h3>
+            <p class="stat-value">{{ total_calories_burned }}</p>
+            <p class="stat-label">kcal</p>
+        </div>
+        <div class="stat-card">
+            <h3>Calories Consumed</h3>
+            <p class="stat-value">{{ total_calories_consumed }}</p>
+            <p class="stat-label">kcal</p>
+        </div>
+        <div class="stat-card">
+            <h3>Workouts</h3>
+            <p class="stat-value">{{ today_workouts|length }}</p>
+            <p class="stat-label">sessions today</p>
+        </div>
+    </div>
+    
+    <div class="actions-grid">
+        <a href="{{ url_for('add_workout') }}" class="btn btn-primary">➕ Log Workout</a>
+        <a href="{{ url_for('add_nutrition') }}" class="btn btn-primary">🍎 Log Food</a>
+        <a href="{{ url_for('progress') }}" class="btn btn-primary">📊 View Progress</a>
+    </div>
+    
+    <div class="content-grid">
+        <div class="card">
+            <h3>Today's Workouts</h3>
+            {% if today_workouts %}
+                <ul class="workout-list">
+                    {% for workout in today_workouts %}
+                        <li>
+                            <span class="workout-type">{{ workout.workout_type }}</span>
+                            <span class="workout-duration">{{ workout.minutes }} min</span>
+                            <span class="workout-calories">{{ workout.calories_burned }} kcal</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty-message">No workouts logged today</p>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <h3>Today's Nutrition</h3>
+            {% if today_nutrition %}
+                <ul class="nutrition-list">
+                    {% for food in today_nutrition %}
+                        <li>
+                            <span class="food-name">{{ food.food_name }}</span>
+                            <span class="food-calories">{{ food.calories }} kcal</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty-message">No meals logged today</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Log Nutrition - Health Tracker{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-box">
+        <h2>Log Food</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label for="food_name">Food Name:</label>
+                <input type="text" id="food_name" name="food_name" required placeholder="e.g., Chicken Salad">
+            </div>
+            <div class="form-group">
+                <label for="calories">Calories:</label>
+                <input type="number" id="calories" name="calories" required min="0">
+            </div>
+            <div class="form-group">
+                <label for="protein">Protein (g):</label>
+                <input type="number" id="protein" name="protein" min="0" step="0.1">
+            </div>
+            <div class="form-group">
+                <label for="carbs">Carbs (g):</label>
+                <input type="number" id="carbs" name="carbs" min="0" step="0.1">
+            </div>
+            <div class="form-group">
+                <label for="fat">Fat (g):</label>
+                <input type="number" id="fat" name="fat" min="0" step="0.1">
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Log Food</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('date').valueAsDate = new Date();
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Progress - Health Tracker{% endblock %}
+
+{% block content %}
+<div class="progress-container">
+    <h2>Your Progress</h2>
+    
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Workout Distribution (Last 7 Days)</h3>
+            <canvas id="workoutChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>Daily Workout Minutes</h3>
+            <canvas id="dailyChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Workout Distribution Chart
+    const workoutCtx = document.getElementById('workoutChart').getContext('2d');
+    new Chart(workoutCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ workout_types|tojson }},
+            datasets: [{
+                label: 'Minutes by Workout Type',
+                data: {{ workout_minutes|tojson }},
+                backgroundColor: [
+                    '#6366f1',
+                    '#06b6d4',
+                    '#10b981',
+                    '#f59e0b',
+                    '#ef4444'
+                ],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Daily Workout Minutes Chart
+    const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+    new Chart(dailyCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ daily_dates|tojson }},
+            datasets: [{
+                label: 'Workout Minutes',
+                data: {{ daily_minutes|tojson }},
+                backgroundColor: '#6366f1',
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
